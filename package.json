@@ -1,0 +1,21 @@
+{
+  "name": "event-rsvp",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "googleapis": "^166.0.0",
+    "mongoose": "^8.19.3",
+    "nodemailer": "^7.0.10",
+    "qrcode": "^1.5.4"
+  },
+  "description": ""
+}
