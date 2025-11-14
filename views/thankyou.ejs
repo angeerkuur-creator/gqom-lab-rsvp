@@ -1,1 +1,77 @@
 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RSVP Confirmed</title>
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <style>
+      .thankyou-container {
+        margin-top: 60px;
+        padding: 40px;
+        color: white;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 12px;
+        backdrop-filter: blur(6px);
+        text-align: center;
+      }
+
+      .qr-code {
+        width: 260px;
+        margin: 25px auto;
+        display: block;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+      }
+
+      .location-btn {
+        margin-top: 20px;
+        display: inline-block;
+        padding: 12px 20px;
+        background: #ff0000;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: 0.3s;
+      }
+
+      .location-btn:hover {
+        background: #d10000;
+      }
+
+      p {
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container thankyou-container">
+      <h1>You're In.</h1>
+
+      <!-- GQOM vibe message -->
+      <p style="font-size: 1.1rem; opacity: 0.9">
+        Your access to the Lab has been granted.
+      </p>
+
+      <p>Show this QR code at the entrance:</p>
+
+      <img src="<%= qr %>" alt="QR Code" class="qr-code" />
+
+      <!-- Check email reminder -->
+      <p style="margin-top: 15px; font-size: 0.95rem">
+        Check your email — your QR code has also been sent there.
+      </p>
+
+      <!-- Location Button -->
+      <a
+        href="https://www.google.com/maps/place/Maro+Gardens+Karen"
+        class="location-btn"
+        target="_blank"
+      >
+        Maro Gardens, Karen – Get Directions
+      </a>
+    </div>
+  </body>
+</html>
