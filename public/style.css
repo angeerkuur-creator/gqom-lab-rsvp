@@ -1,1 +1,97 @@
+public/css/style.css
+/* ----- Global Reset ----- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
+/* ----- Background ----- */
+body {
+  background-image: url("/images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  color: white;
+  backdrop-filter: brightness(0.6); /* darkens background */
+}
+
+/* ----- Center Container ----- */
+.container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 40px;
+  text-align: center;
+}
+
+/* ----- Logo ----- */
+.logo {
+  width: 250px;
+  margin-bottom: 20px;
+}
+
+/* ----- Title ----- */
+h1 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* ----- Form Styling ----- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+
+/* Form labels */
+label {
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Inputs */
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+input::placeholder {
+  color: #cccccc;
+}
+
+/* Dropdown styling */
+select {
+  color: white;
+}
+
+/* Submit Button */
+button {
+  margin-top: 10px;
+  padding: 12px;
+  background: #ff0000;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #dd0000;
+}
