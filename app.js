@@ -3,6 +3,7 @@ const QRCode = require("qrcode");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const { google } = require("googleapis");
+const { Resend } = require("resend");
 
 // ---------------------
 // Google Sheets Setup
@@ -14,7 +15,6 @@ const auth = new google.auth.GoogleAuth({
 
 const SHEET_ID = "1eMmt7SGtel2D1MzG5DgfLVcXB_X5Hq_6W8WHx0Y31Oc";
 
-// Function to add data to Google Sheet
 async function addToSheet(data) {
   const client = await auth.getClient();
   const sheets = google.sheets({ version: "v4", auth: client });
@@ -71,44 +71,42 @@ app.post("/submit", async (req, res) => {
   const { firstName, lastName, email, phone, inviteCode, coming, plusOnes } =
     req.body;
 
+  // ---------------------------------------
+  // Generate QR Code
+  // ---------------------------------------
   const qrData = `Name: ${firstName} ${lastName}, Email: ${email}, Invite: ${inviteCode}`;
   const qrImage = await QRCode.toDataURL(qrData);
 
-  // --- EMAIL SETUP ---
-  const nodemailer = require("nodemailer");
+  // ---------------------------------------
+  // SEND EMAIL (Using Resend — safe + works on Render)
+  // ---------------------------------------
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "angeer.kuur@strathmore.edu",
-      pass: "ogrg tker izoq nspd", // your app password
-    },
-  });
+    await resend.emails.send({
+      from: "GQOM Lab RSVP <onboarding@resend.dev>",
+      to: email,
+      subject: "Your GQOM LAB RSVP Confirmation",
+      html: `
+        <h2>You're Confirmed!</h2>
+        <p>Thanks for RSVPing. Show this QR code at the entrance.</p>
+        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+      `,
+      attachments: [
+        {
+          filename: "qrcode.png",
+          content: qrImage.split(",")[1],
+          encoding: "base64",
+        },
+      ],
+    });
+  } catch (err) {
+    console.log("Email failed:", err);
+  }
 
-  // Email content
-  const mailOptions = {
-    from: "GQOM LAB RSVP <angeer.kuur@strathmore.edu>",
-    to: email,
-    subject: "Your GQOM LAB RSVP Confirmation",
-    html: `
-      <h2>You're Confirmed!</h2>
-      <p>Thanks for RSVPing. Show the QR code at the entrance.</p>
-      <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-    `,
-    attachments: [
-      {
-        filename: "qrcode.png",
-        content: qrImage.split(",")[1],
-        encoding: "base64",
-      },
-    ],
-  };
-
-  await transporter.sendMail(mailOptions);
-
-  // ---------------------
+  // ---------------------------------------
   // Save RSVP to Google Sheet
-  // ---------------------
+  // ---------------------------------------
   await addToSheet({
     firstName,
     lastName,
@@ -119,6 +117,9 @@ app.post("/submit", async (req, res) => {
     plusOnes,
   });
 
+  // ---------------------------------------
+  // Load Thank You Page
+  // ---------------------------------------
   res.render("thankyou", { qr: qrImage });
 });
 
