@@ -84,7 +84,7 @@ app.post("/submit", async (req, res) => {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     await resend.emails.send({
-      from: from: "GQOM Lab RSVP <dengtiel28@gmail.com>",
+      from: "GQOM Lab RSVP <dengtiel28@gmail.com>",
       to: email,
       subject: "Your GQOM LAB RSVP Confirmation",
       html: `
