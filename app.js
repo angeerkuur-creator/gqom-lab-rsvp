@@ -6,10 +6,10 @@ const { google } = require("googleapis");
 const { Resend } = require("resend");
 
 // ---------------------
-// Google Sheets Setup
+// Google Sheets Setup (Using ENV variable)
 // ---------------------
 const auth = new google.auth.GoogleAuth({
-  keyFile: path.join(__dirname, "credentials.json"),
+  credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS),
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
@@ -107,15 +107,19 @@ app.post("/submit", async (req, res) => {
   // ---------------------------------------
   // Save RSVP to Google Sheet
   // ---------------------------------------
-  await addToSheet({
-    firstName,
-    lastName,
-    email,
-    phone,
-    inviteCode,
-    coming,
-    plusOnes,
-  });
+  try {
+    await addToSheet({
+      firstName,
+      lastName,
+      email,
+      phone,
+      inviteCode,
+      coming,
+      plusOnes,
+    });
+  } catch (err) {
+    console.log("Google Sheets Error:", err);
+  }
 
   // ---------------------------------------
   // Load Thank You Page
@@ -129,3 +133,4 @@ app.post("/submit", async (req, res) => {
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
 });
+
